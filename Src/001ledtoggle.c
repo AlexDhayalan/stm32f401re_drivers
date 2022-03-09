@@ -1,0 +1,33 @@
+/*
+ * 001ledtoggle.c
+ *
+ *  Created on: 08-Mar-2022
+ *      Author: alex
+ */
+#include "stm32f401RE.h"
+
+void delay(void){
+	for(uint32_t i = 0; i < 500000; i++);
+}
+
+
+
+int main(void){
+	GPIO_Handle_t gpioLed;
+
+	gpioLed.pGPIOx = GPIOA;
+	gpioLed.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_5;
+	gpioLed.GPIO_PinConfig.GPIO_PinMode  =  GPIO_MODE_OUT;
+	gpioLed.GPIO_PinConfig.GPIO_PinSpeed  = GPIO_OP_SPEED_HIGH;
+	gpioLed.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
+	gpioLed.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NOPUPD;
+
+    GPIO_PeriClockControl(GPIOA, ENABLE);
+	GPIO_Init(&gpioLed);
+
+	while(1){
+		GPIO_TogglePin(GPIOA, GPIO_PIN_NO_5);
+		delay();
+	}
+	return 0;
+}
